@@ -1,12 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
 import App from './App';
+import lightReducer from './redux/lightReducer';
+import counterReducer from './redux/counterReducer';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
+const reducers = combineReducers({
+  light: lightReducer,
+  count: counterReducer
+})
+
+const store = createStore(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
